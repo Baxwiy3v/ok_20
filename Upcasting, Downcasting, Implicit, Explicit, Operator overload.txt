@@ -1,0 +1,72 @@
+using System;
+using System.Reflection;
+
+
+class Program
+{
+    static void Main()
+    {
+        Fruit[] basket = new Fruit[]
+        {
+            new Apple { Price = 2, Sort = "Qizil", VitaminA = 110, VitaminB = 30 },
+            new Pineapple { Price = 5, Sort = "Lucidus", VitaminE = 20, VitaminD = 5 },
+            new Orange { Price = 0.55, Sort = "Sagenaria", VitaminC = 70 }
+        };
+
+        foreach (var fruit in basket)
+        {
+            Type fruitType = fruit.GetType();
+            Console.WriteLine($"Type: {fruitType.Name}");
+
+            FieldInfo[] fields = fruitType.GetFields();
+            foreach (var field in fields)
+            {
+                object value = field.GetValue(fruit);
+                Console.WriteLine($"{field.Name}: {value}");
+            }
+
+            Console.WriteLine();
+        }
+    }
+}
+
+abstract class Fruit
+{
+    public double Price { get; set; }
+    public string Sort { get; set; }
+
+    public abstract void Taste();
+}
+
+class Apple : Fruit
+{
+    public double VitaminA { get; set; }
+    public double VitaminB { get; set; }
+
+    public override void Taste()
+    {
+        Console.WriteLine("Apple: bu turs almadir.");
+    }
+}
+
+class Pineapple : Fruit
+{
+    public double VitaminE { get; set; }
+    public double VitaminD { get; set; }
+
+    public override void Taste()
+    {
+        Console.WriteLine("Pineapple:Bu dadlı ananasadir.");
+    }
+}
+
+class Orange : Fruit
+{
+    public double VitaminC { get; set; }
+
+    public override void Taste()
+    {
+        Console.WriteLine("Orange: Bu sirin  portagaldir.");
+    }
+}
+
